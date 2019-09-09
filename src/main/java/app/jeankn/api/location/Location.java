@@ -21,11 +21,15 @@ public class Location {
         listener = new LocationListener();
     }
 
-    public void start(Context context, LocationChangedListener listener) {
+    public void start(Context context, int interval, LocationChangedListener listener) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this.listener);
             changedListener = listener;
         }
+    }
+
+    public void start(Context context, LocationChangedListener listener) {
+        start(context, 1, listener);
     }
 
     public void stop(Context context) {
