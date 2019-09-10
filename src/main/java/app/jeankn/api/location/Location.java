@@ -21,15 +21,23 @@ public class Location {
         listener = new LocationListener();
     }
 
-    public void start(Context context, int interval, LocationChangedListener listener) {
+    public android.location.Location start(Context context, int interval, LocationChangedListener listener) {
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this.listener);
             changedListener = listener;
+
+            // Get last known location before GPS connects.
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            // Ask GPS to connect
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this.listener);
+
+            return location;
         }
+        return null;
     }
 
-    public void start(Context context, LocationChangedListener listener) {
-        start(context, 1, listener);
+    public android.location.Location start(Context context, LocationChangedListener listener) {
+        return start(context, 1, listener);
     }
 
     public void stop(Context context) {
