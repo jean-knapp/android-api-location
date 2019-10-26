@@ -29,7 +29,7 @@ public class Location {
             location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
             // Ask GPS to connect
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, this.listener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, interval * 1000, 0, this.listener);
 
             return location;
         }
